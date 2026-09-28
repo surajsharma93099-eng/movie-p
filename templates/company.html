@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <div class="card-box filmstrip-top">
+        <h2 class="section-title">Company <span class="glow-text">Profile</span></h2>
+        <p class="section-sub">Details of the promotion agency running this studio.</p>
+
+        <form method="POST" action="{{ url_for('company_profile') }}">
+            <div class="form-group">
+                <label>Company Name</label>
+                <input type="text" name="company_name" value="{{ company.name }}" class="input-field" placeholder="Enter company name" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label>Contact Email</label>
+                <input type="email" name="email" value="{{ company.email }}" class="input-field" placeholder="Enter official email" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="text" name="contact" value="{{ company.contact or '' }}" class="input-field" placeholder="Enter contact number" maxlength="15">
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px;">Save Profile</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

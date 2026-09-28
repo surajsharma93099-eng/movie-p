@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ticket-wrap">
+    <div class="marquee-bulbs"></div>
+    <div class="ticket">
+
+        <div class="ticket-poster crew">
+            <div class="poster-icon"><i class="fa-solid fa-video"></i></div>
+            <p class="poster-eyebrow">BEHIND THE SCENES</p>
+            <h2 class="poster-title">Join The<br>Studio<br><span class="glow-text">Crew.</span></h2>
+            <p class="poster-sub">Admin accounts approve movies and launch campaigns, so registration is protected by an agency access code.</p>
+            <div class="poster-admit">CREW ONLY</div>
+        </div>
+
+        <div class="ticket-form">
+            <div class="status-pill crew-pill"><i class="fa-solid fa-lock"></i> Access Code Required</div>
+            <h3 class="auth-title">Admin <span class="glow-text">Registration</span></h3>
+
+            <form method="POST" action="{{ url_for('admin_register') }}">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" name="name" class="input-field" placeholder="Enter your full name" required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" name="username" class="input-field" placeholder="Choose a username" required maxlength="50">
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" class="input-field" placeholder="At least 6 characters" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label>Confirm Password</label>
+                    <input type="password" name="confirm_password" class="input-field" placeholder="Re-enter password" required minlength="6">
+                </div>
+
+                <div class="form-group">
+                    <label>Agency Access Code</label>
+                    <input type="password" name="access_code" class="input-field" placeholder="Ask the agency owner for this code" required>
+                </div>
+
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-user-shield"></i> Create Admin Account</button>
+            </form>
+
+            <p class="auth-switch">
+                Already crew? <a href="{{ url_for('login', role='admin') }}">Admin sign in</a>
+            </p>
+        </div>
+    </div>
+    <div class="marquee-bulbs alt"></div>
+</div>
+{% endblock %}

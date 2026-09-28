@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Promotion System | Studio Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}?v=3.0">
+</head>
+<body>
+
+    <div class="ticker-wrap">
+        <div class="ticker-badge">
+            <span class="live-pulse"></span> LIVE UPDATES
+        </div>
+        <div class="ticker-marquee">
+            <div class="ticker-content">
+                <span class="ticker-item"><i class="fa-solid fa-fire text-gold"></i> <strong>Trending:</strong> Campaign 'Stuck Life' crossing digital reach benchmarks!</span>
+                <span class="ticker-item"><i class="fa-solid fa-bullhorn text-cyan"></i> <strong>Network:</strong> YouTube & Instagram multi-channel promo pipeline connected</span>
+                <span class="ticker-item"><i class="fa-solid fa-clapperboard text-gold"></i> <strong>Queue:</strong> New client movie submissions syncing in real-time</span>
+                <span class="ticker-item"><i class="fa-solid fa-chart-line text-cyan"></i> <strong>Status:</strong> Active promotions streaming directly from SQLite Database</span>
+            </div>
+            <div class="ticker-content" aria-hidden="true">
+                <span class="ticker-item"><i class="fa-solid fa-fire text-gold"></i> <strong>Trending:</strong> Campaign 'Stuck Life' crossing digital reach benchmarks!</span>
+                <span class="ticker-item"><i class="fa-solid fa-bullhorn text-cyan"></i> <strong>Network:</strong> YouTube & Instagram multi-channel promo pipeline connected</span>
+                <span class="ticker-item"><i class="fa-solid fa-clapperboard text-gold"></i> <strong>Queue:</strong> New client movie submissions syncing in real-time</span>
+                <span class="ticker-item"><i class="fa-solid fa-chart-line text-cyan"></i> <strong>Status:</strong> Active promotions streaming directly from SQLite Database</span>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <a href="{{ url_for('index') }}" class="brand-logo">
+            <div class="logo-badge">
+                <i class="fa-solid fa-film"></i>
+            </div>
+            <span>Movie Promo<span class="glow-text">HQ</span></span>
+        </a>
+        <div class="nav-links">
+            {% set role = session.get('role') %}
+            {% if role %}
+                <a href="{{ url_for('index') }}" class="nav-item"><i class="fa-solid fa-chart-pie"></i> Campaigns</a>
+                {% if role == 'client' %}
+                    <a href="{{ url_for('submit_movie') }}" class="nav-item"><i class="fa-solid fa-cloud-arrow-up"></i> Submit Movie</a>
+                {% else %}
+                    <a href="{{ url_for('company_profile') }}" class="nav-item"><i class="fa-solid fa-building"></i> Company Profile</a>
+                    <a href="{{ url_for('admin_panel') }}" class="nav-item admin-glow-btn"><i class="fa-solid fa-shield-halved"></i> Admin Portal</a>
+                {% endif %}
+                <span class="nav-user"><span>{{ session.get('user_name') }}</span><small>{{ role }}</small></span>
+                <a href="{{ url_for('logout') }}" class="nav-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-item"><i class="fa-solid fa-right-to-bracket"></i> Sign In</a>
+                <a href="{{ url_for('register') }}" class="nav-item admin-glow-btn"><i class="fa-solid fa-ticket"></i> Get Your Pass</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert-box {{ category }}">
+                    <i class="fa-solid {{ 'fa-triangle-exclamation' if category == 'error' else 'fa-circle-check' }}"></i> {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+
+</body>
+</html>

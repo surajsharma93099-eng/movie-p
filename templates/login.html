@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="ticket-wrap">
+    <div class="marquee-bulbs"></div>
+    <div class="ticket">
+
+        <div class="ticket-poster">
+            <div class="poster-icon"><i class="fa-solid fa-clapperboard"></i></div>
+            <p class="poster-eyebrow">MOVIE PROMO HQ PRESENTS</p>
+            <h2 class="poster-title">Lights.<br>Camera.<br><span class="glow-text">Promotion!</span></h2>
+            <p class="poster-sub">Sign in to follow your movie's journey from submission to a full-blown promotion campaign.</p>
+            <div class="poster-admit">ADMIT ONE</div>
+        </div>
+
+        <div class="ticket-form">
+            <div class="status-pill"><i class="fa-solid fa-ticket"></i> Verified Entry Only</div>
+            <h3 class="auth-title">Sign <span class="glow-text">In</span></h3>
+
+            <form method="POST" action="{{ url_for('login') }}">
+                <div class="role-switch">
+                    <input type="radio" id="role-client" name="role" value="client" {% if selected_role != 'admin' %}checked{% endif %}>
+                    <label for="role-client"><i class="fa-solid fa-film"></i> Client</label>
+                    <input type="radio" id="role-admin" name="role" value="admin" {% if selected_role == 'admin' %}checked{% endif %}>
+                    <label for="role-admin"><i class="fa-solid fa-shield-halved"></i> Admin</label>
+                </div>
+
+                <div class="form-group">
+                    <label id="id-label">Email Address</label>
+                    <input type="text" id="identifier" name="identifier" class="input-field" placeholder="you@example.com" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" name="password" class="input-field" placeholder="Enter your password" required>
+                </div>
+
+                <button type="submit" class="btn-primary"><i class="fa-solid fa-clapperboard"></i> Enter the Studio</button>
+            </form>
+
+            <p class="auth-switch">
+                New producer? <a href="{{ url_for('register') }}">Get your pass</a><br>
+                Studio staff? <a href="{{ url_for('admin_register') }}">Admin registration</a>
+            </p>
+        </div>
+    </div>
+    <div class="marquee-bulbs alt"></div>
+</div>
+
+<script>
+    const roleInputs = document.querySelectorAll('input[name="role"]');
+    const idLabel = document.getElementById('id-label');
+    const idInput = document.getElementById('identifier');
+    function updateRole() {
+        const role = document.querySelector('input[name="role"]:checked').value;
+        if (role === 'admin') {
+            idLabel.textContent = 'Admin Username';
+            idInput.placeholder = 'Enter your admin username';
+        } else {
+            idLabel.textContent = 'Email Address';
+            idInput.placeholder = 'you@example.com';
+        }
+    }
+    roleInputs.forEach(function (r) { r.addEventListener('change', updateRole); });
+    updateRole();
+</script>
+{% endblock %}

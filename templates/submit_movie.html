@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div style="max-width: 720px; margin: 0 auto;">
+
+    <div class="card-box filmstrip-top">
+        <h2 class="section-title">Submit a New <span class="glow-text">Movie</span></h2>
+        <p class="section-sub">Submitting as <strong>{{ session.get('user_name') }}</strong>. Your movie goes to the admin for approval.</p>
+
+        <form method="POST" action="{{ url_for('submit_movie') }}">
+            <div class="form-group">
+                <label>Movie Title</label>
+                <input type="text" name="title" class="input-field" placeholder="Enter movie title" required maxlength="100">
+            </div>
+
+            <div class="form-group">
+                <label>Genre</label>
+                <select name="genre" class="input-field" required>
+                    <option value="" disabled selected>Select genre</option>
+                    <option value="Action">Action</option>
+                    <option value="Drama">Drama</option>
+                    <option value="Comedy">Comedy</option>
+                    <option value="Sci-Fi">Sci-Fi</option>
+                    <option value="Thriller">Thriller</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Release Date</label>
+                <input type="date" name="release_date" class="input-field" required>
+            </div>
+
+            <button type="submit" class="btn-primary" style="margin-top: 10px;">Submit Movie</button>
+        </form>
+    </div>
+
+    <div class="card-box">
+        <div class="card-title">
+            <span><i class="fa-solid fa-film"></i> My Submissions</span>
+        </div>
+
+        {% if my_movies %}
+        <div class="table-responsive">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Movie Title</th>
+                        <th>Genre</th>
+                        <th>Release Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for m in my_movies %}
+                    <tr>
+                        <td><strong>{{ m.title }}</strong></td>
+                        <td><span class="genre-pill">{{ m.genre }}</span></td>
+                        <td>{{ m.release_date }}</td>
+                        <td><span class="badge badge-{{ m.status.lower() }}">{{ m.status }}</span></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="empty-state">
+            <i class="fa-solid fa-clapperboard"></i>
+            <h3>No Movies Yet</h3>
+            <p>Submit your first movie above and its approval status will show up here.</p>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

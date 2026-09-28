@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Hero Banner -->
+<div class="hero-banner">
+    <div class="hero-content">
+        <div class="status-pill"><i class="fa-solid fa-circle-check"></i> Promotion Engine Ready</div>
+        <h2>Movie Promotion System Dashboard</h2>
+        <p>Real-time campaign tracking across digital and media publisher networks directly mapped with your database.</p>
+    </div>
+   <div class="hero-action">
+        {% if session.get('role') == 'client' %}
+            <a href="{{ url_for('submit_movie') }}" class="btn-glow"><i class="fa-solid fa-plus"></i> Submit New Movie</a>
+        {% else %}
+            <a href="{{ url_for('admin_panel') }}" class="btn-glow"><i class="fa-solid fa-shield-halved"></i> Open Admin Portal</a>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Real Database Metric Cards -->
+<div class="metrics-grid">
+    <div class="metric-card">
+        <div class="metric-icon icon-blue"><i class="fa-solid fa-film"></i></div>
+        <div class="metric-data">
+            <span class="metric-label">Submitted Movies</span>
+            <h3>{{ total_movies }}</h3>
+            <span class="trend-up"><i class="fa-solid fa-database"></i> In Database</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon icon-green"><i class="fa-solid fa-bullhorn"></i></div>
+        <div class="metric-data">
+            <span class="metric-label">Active Campaigns</span>
+            <h3>{{ total_campaigns }}</h3>
+            <span class="trend-up"><i class="fa-solid fa-tower-broadcast"></i> Published Live</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon icon-purple"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+        <div class="metric-data">
+            <span class="metric-label">Allocated Budget</span>
+            <h3>₹{{ "{:,.2f}".format(total_budget) }}</h3>
+            <span class="badge-status">Approved Funds</span>
+        </div>
+    </div>
+    <div class="metric-card">
+        <div class="metric-icon icon-orange"><i class="fa-solid fa-chart-line"></i></div>
+        <div class="metric-data">
+            <span class="metric-label">Audience Impressions</span>
+            <h3>{% if total_campaigns > 0 %}Calculating...{% else %}0{% endif %}</h3>
+            <span class="badge-status">Live Tracking</span>
+        </div>
+    </div>
+</div>
+
+<!-- Active Campaigns Table -->
+<div class="card-box">
+    <div class="card-title">
+        <span><i class="fa-solid fa-list-check"></i> Published Promotion Channels</span>
+        <span class="live-tag"><i class="fa-solid fa-tower-broadcast"></i> Live Database</span>
+    </div>
+
+    {% if promotions %}
+    <div class="table-responsive">
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Campaign ID</th>
+                    <th>Movie Title</th>
+                    <th>Genre</th>
+                    <th>Platform Target</th>
+                    <th>Budget Allocation</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in promotions %}
+                <tr>
+                    <td><span class="code-id">#PR-{{ p.promotion_id }}</span></td>
+                    <td><strong>{{ p.title }}</strong></td>
+                    <td><span class="genre-pill">{{ p.genre }}</span></td>
+                    <td><i class="fa-brands fa-hubspot"></i> {{ p.platform }}</td>
+                    <td><strong style="color:#059669;">₹{{ "{:,.2f}".format(p.budget) }}</strong></td>
+                    <td><span class="badge badge-active"><i class="fa-solid fa-circle-dot"></i> {{ p.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <i class="fa-solid fa-clapperboard"></i>
+        <h3>No Live Campaigns Yet</h3>
+        <p>Total campaigns are currently 0. Submit a movie and publish a campaign from the Admin Dashboard to start tracking.</p>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}
